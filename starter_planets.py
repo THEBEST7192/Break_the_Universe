@@ -33,10 +33,17 @@ class SolarSystem(Window):
         # (distance, speed, size, color)
         self.planets = [
             (80, 1.0, 8, "#00D2FC"),   # Planet 1
-            #(80, 1.0, 8, "#00D2FC"),  # Planet 2
-            #(140, 0.5, 10, "#FFC75F"), # Planet 3
-            #(200, 0.2, 12, "#C34A36"), # Planet 4
-            #(100, 10.0, 5, "#FFFFFF")  # Planet 5
+            (80, 1.0, 8, "#00D2FC"),  # Planet 2
+            (140, 0.5, 10, "#FFC75F"), # Planet 3
+            (200, 0.2, 12, "#C34A36"), # Planet 4
+
+            # Nucelear Reactor 
+            (100, 1000.0, 5, "#FFFFFF"),  # Core 1
+            (120, 1000.0, 5, "#FFFFFF"),  # Core 2
+            (140, 1000.0, 5, "#FFFFFF"), # Core 3
+            (160, 1000.0, 5, "#FFFFFF"),  # Core 4
+            (180, 1000.0, 5, "#FFFFFF"),  # Core 5
+            (200, 1000.0, 5, "#FFFFFF") # Core 6 
         ]
 
         # Create planet objects
