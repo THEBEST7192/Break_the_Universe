@@ -13,12 +13,12 @@ pip install pyglet
 Run the program:
 
 ```
-python main.py
+python starter_planets.py    
 ```
 
 ## Your task
 
-Open `main.py` and change the planet values:
+Open `starter_planets.py` and change the planet values:
 
 * distance → orbit size
 * speed → how fast it moves
