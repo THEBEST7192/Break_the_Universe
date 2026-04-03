@@ -33,6 +33,10 @@ class SolarSystem(Window):
         # (distance, speed, size, color)
         self.planets = [
             (80, 1.0, 8, "#00D2FC"),   # Planet 1
+            (80, 1.0, 8, "#00D2FC"),
+            (140, 0.5, 10, "#FFC75F"),
+            (200, 0.2, 12, "#C34A36"),
+            (100, 10.0, 5, "#FFFFFF")
         ]
 
         # Create planet objects
