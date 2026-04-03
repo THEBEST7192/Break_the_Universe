@@ -16,6 +16,13 @@ Run the program:
 python starter_planets.py    
 ```
 
+
+## Nucelear Reactor
+
+Fast spinning planets
+
+Use `python nucelear_reactor.py` to run it
+
 ## Your task
 
 Open `starter_planets.py` and change the planet values:
