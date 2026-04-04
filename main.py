@@ -41,7 +41,7 @@ def get_rainbow_color(start_index, speed, time):
 
 class SolarSystem(Window):
     def __init__(self):
-        super().__init__(640, 640, "Mini Solar System - 45 Degree Rotation")
+        super().__init__(640, 640, "Kjernereaktor - Sith Code")
 
         self.batch = Batch()
 
@@ -56,9 +56,9 @@ class SolarSystem(Window):
         # Planets (EDIT THESE!)
         # (x_distance, y_distance, speed, size, color, phase)
         self.planets = [
-            (80, 80, 0.7, 8, "#00D2FC", 0),  # Planet 2
-            (140, 140, 0.5, 10, "#FFC75F", 0), # Planet 3
-            (200, 200, 0.2, 12, "#C34A36", 0), # Planet 4
+            (230, 220, 0.5, 8, "#00D2FC", 0),  # Planet 2
+            (250, 240, 0.3, 10, "#FFC75F", math.pi/4), # Planet 3
+            (300, 280, 0.2, 12, "#C34A36", 0), # Planet 4
 
             # Nucelear Reactor (4 sections of radial lines - rotated 45 degrees)
             # Section 1 (pi/4 rad)
