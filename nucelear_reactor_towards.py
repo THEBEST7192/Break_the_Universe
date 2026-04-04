@@ -69,9 +69,9 @@ class SolarSystem(Window):
 
             # Other Reactor part
             (150, 150, 1.0, 20, RAINBOW(1, 10), 0),
-            (150, 150, 1.0, 20, RAINBOW(2, 10), math.pi/2),
-            (150, 150, 1.0, 20, RAINBOW(3, 10), math.pi),
-            (150, 150, 1.0, 20, RAINBOW(4, 10), 3*math.pi/2)
+            (-150, 150, 1.0, 20, RAINBOW(2, 10), 0),
+            (150, -150, 1.0, 20, RAINBOW(3, 10), 0),
+            (-150, -150, 1.0, 20, RAINBOW(4, 10), 0)
         ]
 
         # Create planet objects
