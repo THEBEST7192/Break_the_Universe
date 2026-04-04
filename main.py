@@ -107,8 +107,39 @@ class SolarSystem(Window):
             (150, 150, 1.0, 20, RAINBOW(5, 10), 4 * 2*math.pi/5)
         ]
 
-        # Create planet objects
         self.planet_circles = []
+        self.asteroids = []
+        self.asteroid_speed = 300.0
+
+        # Text Label in top right
+        self.label = text.Label('SPACE: Asteroids, R: Reset, ESC: Exit',
+                                font_name='Arial',
+                                font_size=12,
+                                x=self.width - 10, y=self.height - 10,
+                                anchor_x='right', anchor_y='top',
+                                color=(255, 255, 255, 255),
+                                batch=self.batch)
+        
+        self.reset_game()
+
+    def reset_game(self):
+        # Clear existing planets
+        for p in self.planet_circles:
+            p['circle'].delete()
+        self.planet_circles.clear()
+
+        # Clear existing asteroids
+        for a in self.asteroids:
+            a['shape'].delete()
+        self.asteroids.clear()
+
+        # Reset sun
+        self.sun.radius = 25
+        
+        # Reset angle
+        self.angle = 0
+
+        # Create planet objects
         for planet_data in self.planets:
             x_distance, y_distance, speed, size, color, phase = planet_data
 
@@ -138,24 +169,18 @@ class SolarSystem(Window):
                 'color_info': color
             })
 
-        self.angle = 0
-
-        # Asteroids
-        self.asteroids = []
-        self.asteroid_speed = 300.0
-
-        # Text Label in top right
-        self.label = text.Label('SPACE: Asteroids',
-                                font_name='Arial',
-                                font_size=12,
-                                x=self.width - 10, y=self.height - 10,
-                                anchor_x='right', anchor_y='top',
-                                color=(255, 255, 255, 255),
-                                batch=self.batch)
-
     def on_key_press(self, symbol, modifiers):
+        # Exit on ESC
+        if symbol == key.ESCAPE:
+            self.close()
+
+        # Spawn asteroids on SPACE
         if symbol == key.SPACE:
             self.spawn_asteroid()
+        
+        # Reset on R
+        if symbol == key.R:
+            self.reset_game()
 
     def spawn_asteroid(self):
         # Spawn asteroid at random position on the screen edge
