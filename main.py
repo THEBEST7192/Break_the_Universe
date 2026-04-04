@@ -60,40 +60,49 @@ class SolarSystem(Window):
             (250, 240, 0.3, 10, "#FFC75F", math.pi/4), # Planet 3
             (300, 280, 0.2, 12, "#C34A36", 0), # Planet 4
 
-            # Nucelear Reactor (4 sections of radial lines - rotated 45 degrees)
-            # Section 1 (pi/4 rad)
-            (100, 100, 1.0, 5, "#FFFFFF", math.pi/4),
-            (120, 120, 1.0, 5, "#FFFFFF", math.pi/4),
-            (140, 140, 1.0, 5, "#FFFFFF", math.pi/4),
-            (160, 160, 1.0, 5, "#FFFFFF", math.pi/4),
-            (180, 180, 1.0, 5, "#FFFFFF", math.pi/4),
-            (200, 200, 1.0, 5, "#FFFFFF", math.pi/4),
-            # Section 2 (3pi/4 rad) 
-            (100, 100, 1.0, 5, "#FFFFFF", 3*math.pi/4),
-            (120, 120, 1.0, 5, "#FFFFFF", 3*math.pi/4),
-            (140, 140, 1.0, 5, "#FFFFFF", 3*math.pi/4),
-            (160, 160, 1.0, 5, "#FFFFFF", 3*math.pi/4),
-            (180, 180, 1.0, 5, "#FFFFFF", 3*math.pi/4),
-            (200, 200, 1.0, 5, "#FFFFFF", 3*math.pi/4),
-            # Section 3 (5pi/4 rad)
-            (100, 100, 1.0, 5, "#FFFFFF", 5*math.pi/4),
-            (120, 120, 1.0, 5, "#FFFFFF", 5*math.pi/4),
-            (140, 140, 1.0, 5, "#FFFFFF", 5*math.pi/4),
-            (160, 160, 1.0, 5, "#FFFFFF", 5*math.pi/4),
-            (180, 180, 1.0, 5, "#FFFFFF", 5*math.pi/4),
-            (200, 200, 1.0, 5, "#FFFFFF", 5*math.pi/4),
-            # Section 4 (7pi/4 rad)
-            (100, 100, 1.0, 5, "#FFFFFF", 7*math.pi/4),
-            (120, 120, 1.0, 5, "#FFFFFF", 7*math.pi/4),
-            (140, 140, 1.0, 5, "#FFFFFF", 7*math.pi/4),
-            (160, 160, 1.0, 5, "#FFFFFF", 7*math.pi/4),
-            (180, 180, 1.0, 5, "#FFFFFF", 7*math.pi/4),
-            (200, 200, 1.0, 5, "#FFFFFF", 7*math.pi/4),
-            # Other Reactor part
-            (150, 150, 1.0, 20, RAINBOW(1, 10), 0),
-            (150, 150, 1.0, 20, RAINBOW(2, 10), math.pi/2),
-            (150, 150, 1.0, 20, RAINBOW(3, 10), math.pi),
-            (150, 150, 1.0, 20, RAINBOW(4, 10), 3*math.pi/2)
+            # Nucelear Reactor (5 sections of radial lines - rotated for 5-fold symmetry)
+            # Section 1 (0 * 2pi/5 + pi/5 rad) - Dark Red
+            (100, 100, 1.0, 5, "#8B0000", 0 * 2*math.pi/5 + math.pi/5),
+            (120, 120, 1.0, 5, "#8B0000", 0 * 2*math.pi/5 + math.pi/5),
+            (140, 140, 1.0, 5, "#8B0000", 0 * 2*math.pi/5 + math.pi/5),
+            (160, 160, 1.0, 5, "#8B0000", 0 * 2*math.pi/5 + math.pi/5),
+            (180, 180, 1.0, 5, "#8B0000", 0 * 2*math.pi/5 + math.pi/5),
+            (200, 200, 1.0, 5, "#8B0000", 0 * 2*math.pi/5 + math.pi/5),
+            # Section 2 (1 * 2pi/5 + pi/5 rad) - Orange Red
+            (100, 100, 1.0, 5, "#FF4500", 1 * 2*math.pi/5 + math.pi/5),
+            (120, 120, 1.0, 5, "#FF4500", 1 * 2*math.pi/5 + math.pi/5),
+            (140, 140, 1.0, 5, "#FF4500", 1 * 2*math.pi/5 + math.pi/5),
+            (160, 160, 1.0, 5, "#FF4500", 1 * 2*math.pi/5 + math.pi/5),
+            (180, 180, 1.0, 5, "#FF4500", 1 * 2*math.pi/5 + math.pi/5),
+            (200, 200, 1.0, 5, "#FF4500", 1 * 2*math.pi/5 + math.pi/5),
+            # Section 3 (2 * 2pi/5 + pi/5 rad) - Dark Orange
+            (100, 100, 1.0, 5, "#FF8C00", 2 * 2*math.pi/5 + math.pi/5),
+            (120, 120, 1.0, 5, "#FF8C00", 2 * 2*math.pi/5 + math.pi/5),
+            (140, 140, 1.0, 5, "#FF8C00", 2 * 2*math.pi/5 + math.pi/5),
+            (160, 160, 1.0, 5, "#FF8C00", 2 * 2*math.pi/5 + math.pi/5),
+            (180, 180, 1.0, 5, "#FF8C00", 2 * 2*math.pi/5 + math.pi/5),
+            (200, 200, 1.0, 5, "#FF8C00", 2 * 2*math.pi/5 + math.pi/5),
+            # Section 4 (3 * 2pi/5 + pi/5 rad) - Gold
+            (100, 100, 1.0, 5, "#FFD700", 3 * 2*math.pi/5 + math.pi/5),
+            (120, 120, 1.0, 5, "#FFD700", 3 * 2*math.pi/5 + math.pi/5),
+            (140, 140, 1.0, 5, "#FFD700", 3 * 2*math.pi/5 + math.pi/5),
+            (160, 160, 1.0, 5, "#FFD700", 3 * 2*math.pi/5 + math.pi/5),
+            (180, 180, 1.0, 5, "#FFD700", 3 * 2*math.pi/5 + math.pi/5),
+            (200, 200, 1.0, 5, "#FFD700", 3 * 2*math.pi/5 + math.pi/5),
+            # Section 5 (4 * 2pi/5 + pi/5 rad) - Goldenrod
+            (100, 100, 1.0, 5, "#DAA520", 4 * 2*math.pi/5 + math.pi/5),
+            (120, 120, 1.0, 5, "#DAA520", 4 * 2*math.pi/5 + math.pi/5),
+            (140, 140, 1.0, 5, "#DAA520", 4 * 2*math.pi/5 + math.pi/5),
+            (160, 160, 1.0, 5, "#DAA520", 4 * 2*math.pi/5 + math.pi/5),
+            (180, 180, 1.0, 5, "#DAA520", 4 * 2*math.pi/5 + math.pi/5),
+            (200, 200, 1.0, 5, "#DAA520", 4 * 2*math.pi/5 + math.pi/5),
+            
+            # Other Reactor part (Rainbow circles)
+            (150, 150, 1.0, 20, RAINBOW(1, 10), 0 * 2*math.pi/5),
+            (150, 150, 1.0, 20, RAINBOW(2, 10), 1 * 2*math.pi/5),
+            (150, 150, 1.0, 20, RAINBOW(3, 10), 2 * 2*math.pi/5),
+            (150, 150, 1.0, 20, RAINBOW(4, 10), 3 * 2*math.pi/5),
+            (150, 150, 1.0, 20, RAINBOW(5, 10), 4 * 2*math.pi/5)
         ]
 
         # Create planet objects
