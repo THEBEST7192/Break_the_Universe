@@ -1,5 +1,5 @@
 import math
-from pyglet.window import Window
+from pyglet.window import Window, key
 from pyglet.app import run
 from pyglet.shapes import Circle
 from pyglet.graphics import Batch
@@ -106,16 +106,23 @@ class SolarSystem(Window):
             else:
                 initial_color = hex_to_rgb(color)
 
-            circle = Circle(self.cx + x_distance, self.cy + y_distance,
+            circle = Circle(self.cx + x_distance * math.cos(phase), 
+                            self.cy + y_distance * math.sin(phase),
                             size,
                             color=initial_color,
                             batch=self.batch)
+            
+            # Offset position and velocity
             self.planet_circles.append({
                 'x_dist': x_distance,
                 'y_dist': y_distance,
                 'speed': speed,
                 'phase': phase,
                 'circle': circle,
+                'offset_x': 0.0,
+                'offset_y': 0.0,
+                'ovx': 0.0,
+                'ovy': 0.0,
                 'color_info': color
             })
 
@@ -124,14 +131,64 @@ class SolarSystem(Window):
     def update(self, dt):
         self.angle += dt
 
-        # Move planets in circles
+        # Move planets in circles with physics offset
         for p in self.planet_circles:
-            p['circle'].x = self.cx + p['x_dist'] * math.cos(self.angle * p['speed'] + p['phase'])
-            p['circle'].y = self.cy + p['y_dist'] * math.sin(self.angle * p['speed'] + p['phase'])
+            # Apply offset velocity to offset position
+            p['offset_x'] += p['ovx'] * dt
+            p['offset_y'] += p['ovy'] * dt
+            
+            # Apply friction to offset velocity
+            p['ovx'] *= 0.99
+            p['ovy'] *= 0.99
+
+            # Base orbital position
+            base_x = self.cx + p['x_dist'] * math.cos(self.angle * p['speed'] + p['phase'])
+            base_y = self.cy + p['y_dist'] * math.sin(self.angle * p['speed'] + p['phase'])
+            
+            # Final position is base + offset
+            p['circle'].x = base_x + p['offset_x']
+            p['circle'].y = base_y + p['offset_y']
             
             # Update rainbow colors
             if isinstance(p['color_info'], RAINBOW):
                 p['circle'].color = get_rainbow_color(p['color_info'].start_color, p['color_info'].speed, self.angle)
+
+        # Collision logic
+        for i in range(len(self.planet_circles) - 1, -1, -1):
+            p1, c1 = self.planet_circles[i], self.planet_circles[i]['circle']
+            
+            # Sun collision (Destroy planet on hit)
+            if math.hypot(c1.x - self.cx, c1.y - self.cy) < (c1.radius + self.sun.radius):
+                c1.delete()
+                self.planet_circles.pop(i)
+                continue
+
+            # Remove off-screen planets
+            if c1.x < -100 or c1.x > self.width + 100 or c1.y < -100 or c1.y > self.height + 100:
+                c1.delete()
+                self.planet_circles.pop(i)
+                continue
+
+            # Planet-Planet collision
+            for j in range(i - 1, -1, -1):
+                p2, c2 = self.planet_circles[j], self.planet_circles[j]['circle']
+                dx, dy = c2.x - c1.x, c2.y - c1.y
+                dist = math.hypot(dx, dy)
+                
+                if dist < (c1.radius + c2.radius):
+                    # Push apart+transfer momentum
+                    nx, ny = dx / (dist or 0.1), dy / (dist or 0.1)
+                    overlap = (c1.radius + c2.radius) - dist
+                    p1['offset_x'] -= nx * overlap * 0.5
+                    p1['offset_y'] -= ny * overlap * 0.5
+                    p2['offset_x'] += nx * overlap * 0.5
+                    p2['offset_y'] += ny * overlap * 0.5
+                    
+                    m1, m2 = c1.radius, c2.radius
+                    p1['ovx'] -= nx * 50 * (m2 / m1)
+                    p1['ovy'] -= ny * 50 * (m2 / m1)
+                    p2['ovx'] += nx * 50 * (m1 / m2)
+                    p2['ovy'] += ny * 50 * (m1 / m2)
 
     def on_draw(self):
         self.clear()
