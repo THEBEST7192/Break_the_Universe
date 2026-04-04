@@ -56,7 +56,9 @@ class SolarSystem(Window):
         # Planets (EDIT THESE!)
         # (x_distance, y_distance, speed, size, color, phase)
         self.planets = [
-            (230, 220, 0.5, 8, "#00D2FC", 0),  # Planet 2
+
+
+            (230, 220, 0.5, 8, "#00D2FC", 0),  # Planet 1
             (250, 240, 0.3, 10, "#FFC75F", math.pi/4), # Planet 3
             (300, 280, 0.2, 12, "#C34A36", 0), # Planet 4
 
@@ -209,6 +211,8 @@ class SolarSystem(Window):
             
             # Sun collision (Destroy planet on hit)
             if math.hypot(c1.x - self.cx, c1.y - self.cy) < (c1.radius + self.sun.radius):
+                # Grow the sun when it "eats" a planet
+                self.sun.radius += c1.radius * 0.1
                 c1.delete()
                 self.planet_circles.pop(i)
                 continue
@@ -250,18 +254,22 @@ class SolarSystem(Window):
             for p in self.planet_circles:
                 pc = p['circle']
                 if math.hypot(ashp.x - pc.x, ashp.y - pc.y) < (ashp.radius + pc.radius):
-                    p['ovx'] += a['vx'] * (ashp.radius / pc.radius) * 0.5
-                    p['ovy'] += a['vy'] * (ashp.radius / pc.radius) * 0.5
-                    ashp.delete()
-                    self.asteroids.remove(a)
-                    break
-            else:
-                # Remove if asteroid hits sun or off screen
-                dist_sun = math.hypot(ashp.x - self.cx, ashp.y - self.cy)
-                off = ashp.x < -50 or ashp.x > self.width+50 or ashp.y < -50 or ashp.y > self.height+50
-                if dist_sun < (ashp.radius + self.sun.radius) or off:
-                    ashp.delete()
-                    self.asteroids.remove(a)
+                    # Transfer momentum to the planet but do not destroy asteroid
+                    p['ovx'] += a['vx'] * (ashp.radius / pc.radius) * 0.2
+                    p['ovy'] += a['vy'] * (ashp.radius / pc.radius) * 0.2
+            
+            # Remove if asteroid hits sun or off screen
+            dist_sun = math.hypot(ashp.x - self.cx, ashp.y - self.cy)
+            off = ashp.x < -50 or ashp.x > self.width+50 or ashp.y < -50 or ashp.y > self.height+50
+            
+            if dist_sun < (ashp.radius + self.sun.radius):
+                # Grow sun when it "eats" an asteroid
+                self.sun.radius += ashp.radius * 0.1
+                ashp.delete()
+                self.asteroids.remove(a)
+            elif off:
+                ashp.delete()
+                self.asteroids.remove(a)
 
     def on_draw(self):
         self.clear()
