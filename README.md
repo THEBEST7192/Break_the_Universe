@@ -13,15 +13,27 @@ pip install pyglet
 Run the program:
 
 ```
-python starter_planets.py    
+python main.py
 ```
 
 
-## Nucelear Reactor
+## Running
+Run the main and final entry with:
+```
+python main.py
+```
 
-Fast spinning planets
+Files for different nucelear reactors are in `REACTOR`: 
 
-Use `python nucelear_reactor.py` to run it
+```bash
+cd REACTOR
+```
+
+Then run the files with `python filename.py` i.e:
+
+```bash
+python nucelear_reactor_same_speed.py
+```
 
 ## Your task
 
