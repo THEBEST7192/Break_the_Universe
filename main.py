@@ -1,9 +1,10 @@
 import math
+import random
 from pyglet.window import Window, key
 from pyglet.app import run
 from pyglet.shapes import Circle
 from pyglet.graphics import Batch
-from pyglet import clock
+from pyglet import clock, text
 
 
 # Simple color helper (RGB only)
@@ -128,6 +129,46 @@ class SolarSystem(Window):
 
         self.angle = 0
 
+        # Asteroids
+        self.asteroids = []
+        self.asteroid_speed = 300.0
+
+        # Text Label in top right
+        self.label = text.Label('SPACE: Asteroids',
+                                font_name='Arial',
+                                font_size=12,
+                                x=self.width - 10, y=self.height - 10,
+                                anchor_x='right', anchor_y='top',
+                                color=(255, 255, 255, 255),
+                                batch=self.batch)
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.SPACE:
+            self.spawn_asteroid()
+
+    def spawn_asteroid(self):
+        # Spawn asteroid at random position on the screen edge
+        side = random.randint(0, 3)
+        if side == 0: # Top
+            x, y = random.randint(0, self.width), self.height
+        elif side == 1: # Bottom
+            x, y = random.randint(0, self.width), 0
+        elif side == 2: # Left
+            x, y = 0, random.randint(0, self.height)
+        else: # Right
+            x, y = self.width, random.randint(0, self.height)
+
+        # Create asteroid
+        ashp = Circle(x, y, 12, color=(128, 128, 128), batch=self.batch)
+        
+        # Calculate direction towards center
+        dx, dy = self.cx - x, self.cy - y
+        dist = math.hypot(dx, dy)
+        vx = (dx / (dist or 1)) * self.asteroid_speed
+        vy = (dy / (dist or 1)) * self.asteroid_speed
+
+        self.asteroids.append({'shape': ashp, 'vx': vx, 'vy': vy})
+
     def update(self, dt):
         self.angle += dt
 
@@ -189,6 +230,29 @@ class SolarSystem(Window):
                     p1['ovy'] -= ny * 50 * (m2 / m1)
                     p2['ovx'] += nx * 50 * (m1 / m2)
                     p2['ovy'] += ny * 50 * (m1 / m2)
+
+        # Asteroid movement and collisions
+        for a in self.asteroids[:]:
+            a['shape'].x += a['vx'] * dt
+            a['shape'].y += a['vy'] * dt
+            ashp = a['shape']
+
+            # Hit planet?
+            for p in self.planet_circles:
+                pc = p['circle']
+                if math.hypot(ashp.x - pc.x, ashp.y - pc.y) < (ashp.radius + pc.radius):
+                    p['ovx'] += a['vx'] * (ashp.radius / pc.radius) * 0.5
+                    p['ovy'] += a['vy'] * (ashp.radius / pc.radius) * 0.5
+                    ashp.delete()
+                    self.asteroids.remove(a)
+                    break
+            else:
+                # Remove if asteroid hits sun or off screen
+                dist_sun = math.hypot(ashp.x - self.cx, ashp.y - self.cy)
+                off = ashp.x < -50 or ashp.x > self.width+50 or ashp.y < -50 or ashp.y > self.height+50
+                if dist_sun < (ashp.radius + self.sun.radius) or off:
+                    ashp.delete()
+                    self.asteroids.remove(a)
 
     def on_draw(self):
         self.clear()
